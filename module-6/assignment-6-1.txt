@@ -1,0 +1,46 @@
+    1  dir
+    2  cd Documents/
+    3  dir
+    4  cd github/
+    5  cd uw-pce-sql-server-development-sqldev310/
+    6  git config -- user.name = ramr2012
+    7  git config -- global user.name = ramr2012
+    8  git config --global user.name = ramr2012
+    9* git config --global core.editor 
+   10  git config --global user.name "ramr2012"
+   11  git config -- global user.email ramr2012@uw.edu
+   12  git config --global user.email ramr2012@uw.edu
+   13  git config --global core.editor notepad.exe
+   14  pwd
+   15  ls
+   16  ls -a
+   17  git status
+   18  touch ramr2012.txt
+   19  ls
+   20  cat ramr2012.txt
+   21  git status
+   22  git status
+   23  git add .
+   24  git status
+   25  git commit -a
+   26  git status
+   27  git status
+   28  git commit -a
+   29  git status
+   30  cat
+   31  cat ramr2012.txt
+   32  git log --oneline
+   33  git checkout 5d80e50
+   34  cat ramr2012.txt
+   35  git checkout 2844a22
+   36  cat ramr2012.txt
+   37  git checkout master
+   38  git checkout main
+   39  cat ramr2012.txt
+   40  touch second-file.txt
+   41  git add second-file.txt
+   42  git status
+   43  git commit -a
+   44  git status
+   45  git status
+   46  history > ramr2012History.txt
