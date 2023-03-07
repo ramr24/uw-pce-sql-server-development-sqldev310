@@ -10,7 +10,7 @@
 ** Date			Author				Description 
 ** ----------	------------------  ---------------
 ** 2023-03-06	Ramkumar Rajanbabu	Started Assignment 6: Copied assignment 5 sql file
-** 2023-03-07	Ramkumar Rajanbabu	
+** 2023-03-07	Ramkumar Rajanbabu	Completed Assignment 6: Added INSERT, UPDATE, DELETES and JOINS
 **************************************************/
 
 -- **Create and Drop Database**
@@ -46,6 +46,7 @@ DROP TABLE IF EXISTS Trainings;
 GO
 
 -- **Create Tables**
+-- **1) Creates your latest database**
 CREATE TABLE Addresses (
 	AddressID INT NOT NULL IDENTITY PRIMARY KEY,
 	AddressLine1 VARCHAR(200) NOT NULL,
@@ -89,7 +90,8 @@ CREATE TABLE Clients (
 GO
 CREATE TABLE Trainings (
 	TrainingID INT NOT NULL IDENTITY PRIMARY KEY,
-	PersonID INT NOT NULL,
+	EmployeeID INT NOT NULL,
+	ClientID INT NOT NULL,
 	TrainingDate DATETIME NOT NULL,
 	SoftwareVersion INT NOT NULL,
 	TrainingType VARCHAR(50) NOT NULL,
@@ -116,17 +118,13 @@ ALTER TABLE Clients
 	ADD CONSTRAINT fkClientsPersons
 		FOREIGN KEY (PersonID) REFERENCES Persons (PersonID)
 ALTER TABLE Trainings
-	ADD CONSTRAINT fkTrainingsPersons
-		FOREIGN KEY (PersonID) REFERENCES Persons (PersonID)
+	ADD CONSTRAINT fkTrainingsEmployees
+		FOREIGN KEY (EmployeeID) REFERENCES Employees (EmployeeID)
+ALTER TABLE Trainings
+	ADD CONSTRAINT fkTrainingsClients
+		FOREIGN KEY (ClientID) REFERENCES Clients (ClientID)
 
---Assignment 6 Details
---Creates your latest database
---Inserts at least 5 rows of data in every table
---Updates at least 2 values in any table
---Deletes at least 2 values in any table
---Joins at least 2 tables. More joins get higher grades
-
--- Insert Into Tables
+-- 2) Inserts at least 5 rows of data in every table
 INSERT INTO Addresses
 	(AddressLine1, AddressLine2, City, State, ZipCode)
 VALUES
@@ -185,15 +183,125 @@ VALUES
 	(10, 'Lyla Watkins')
 GO
 INSERT INTO Trainings
-	(PersonID, TrainingDate, SoftwareVersion, TrainingType, BillingType, TrainingHours, Price)
+	(EmployeeID, ClientID, TrainingDate, SoftwareVersion, TrainingType, BillingType, TrainingHours, Price)
 VALUES
-	()
+	(1, 1, '2023-01-01', 1, 'Onsite', 'Standard Class', 3, 500.00),
+	(1, 3, '2023-02-10', 3, 'Online', 'Hourly Based Class', 2, 400.00),
+	(2, 4, '2023-01-15', 1, 'Onsite', 'Hourly Based Class', 1, 200.00),
+	(3, 5, '2023-01-30', 2, 'Online', 'Hourly Based Class', 6, 1200.00),
+	(5, 2, '2023-03-01', 1, 'Onsite', 'Standard Class', 3, 500.00)
 GO
 
--- Join the tables together
-SELECT * FROM Addresses
+-- 3) Updates at least 2 values in any table
+-- *Update BillingType Standard Class*
+UPDATE Trainings 
+SET Price = 300.00
+WHERE BillingType = 'Standard Class';
+GO
+-- *Update PhoneID 3*
+UPDATE Phones
+SET PhoneNumber = '99919919999'
+WHERE PhoneID = 3;
+GO
+
+-- 4) Deletes at least 2 values in any table
+-- *Delete ClientID 5*
+-- Could not delete directly from Clients table due to FOREIGN KEY CONSTRAINT
+--DELETE FROM Clients
+--WHERE ClientID = 5;
+--GO
+DELETE FROM Trainings
+WHERE ClientID = 5;
+GO
+DELETE FROM Clients
+WHERE ClientID = 5;
+GO
+-- *Delete TrainingID 5*
+DELETE FROM Trainings
+WHERE TrainingID = 5;
+GO
+
+-- 5) Joins at least 2 tables. More joins get higher grades
+-- *Join Persons table and Employees table*
+--SELECT * 
+--FROM Persons
+--INNER JOIN Employees
+--ON Persons.PersonID = Employees.PersonID;
+--GO
+-- *Join previous query with Clients table*
+--SELECT * 
+--FROM Persons
+--LEFT JOIN Employees
+--ON Persons.PersonID = Employees.PersonID
+--LEFT JOIN Clients
+--ON Persons.PersonID = Clients.PersonID;
+--GO
+-- Join previous query with Addresses table*
+--SELECT * 
+--FROM Persons
+--LEFT JOIN Employees
+--ON Persons.PersonID = Employees.PersonID
+--LEFT JOIN Clients
+--ON Persons.PersonID = Clients.PersonID
+--LEFT JOIN Addresses
+--ON Persons.AddressID = Addresses.AddressID;
+--GO
+-- Join previous query with Phones table*
+--SELECT * 
+--FROM Persons
+--LEFT JOIN Employees
+--ON Persons.PersonID = Employees.PersonID
+--LEFT JOIN Clients
+--ON Persons.PersonID = Clients.PersonID
+--LEFT JOIN Addresses
+--ON Persons.AddressID = Addresses.AddressID
+--LEFT JOIN Phones
+--ON Persons.PhoneID = Phones.PhoneID;
+--GO
+-- Join previous query with PhoneTypes table*
+--SELECT * 
+--FROM Persons
+--LEFT JOIN Employees
+--ON Persons.PersonID = Employees.PersonID
+--LEFT JOIN Clients
+--ON Persons.PersonID = Clients.PersonID
+--LEFT JOIN Addresses
+--ON Persons.AddressID = Addresses.AddressID
+--LEFT JOIN Phones
+--ON Persons.PhoneID = Phones.PhoneID
+--LEFT JOIN PhoneTypes
+--ON Phones.PhoneTypeID = PhoneTypes.PhoneTypeID;
+--GO
+-- Cleaned up Joined Query
+SELECT
+	Persons.PersonID,
+	Persons.PersonType,
+	Employees.EmployeeFullName,
+	Clients.ClientFullName,
+	PhoneTypes.PhoneType,
+	Phones.PhoneNumber,
+	Addresses.AddressLine1,
+	Addresses.AddressLine2,
+	Addresses.City,
+	Addresses.State,
+	Addresses.ZipCode
+FROM Persons
+LEFT JOIN Employees
+ON Persons.PersonID = Employees.PersonID
+LEFT JOIN Clients
+ON Persons.PersonID = Clients.PersonID
+LEFT JOIN Addresses
+ON Persons.AddressID = Addresses.AddressID
+LEFT JOIN Phones
+ON Persons.PhoneID = Phones.PhoneID
+LEFT JOIN PhoneTypes
+ON Phones.PhoneTypeID = PhoneTypes.PhoneTypeID;
+GO
+
+-- View Tables
 SELECT * FROM Phones
-SELECT * FROM PhoneTypes
+SELECT * FROM Addresses
 SELECT * FROM Persons
 SELECT * FROM Employees
 SELECT * FROM Clients
+SELECT * FROM Trainings
