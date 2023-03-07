@@ -10,6 +10,7 @@
 ** Date			Author				Description 
 ** ----------	------------------  ---------------
 ** 2023-03-06	Ramkumar Rajanbabu	Started Assignment 6: Copied assignment 5 sql file
+** 2023-03-07	Ramkumar Rajanbabu	
 **************************************************/
 
 -- **Create and Drop Database**
@@ -48,7 +49,7 @@ GO
 CREATE TABLE Addresses (
 	AddressID INT NOT NULL IDENTITY PRIMARY KEY,
 	AddressLine1 VARCHAR(200) NOT NULL,
-	AddressLine2 VARCHAR(200) NOT NULL,
+	AddressLine2 VARCHAR(200) NULL,
 	City VARCHAR(100) NOT NULL,
 	State VARCHAR(2) NOT NULL,
 	ZipCode VARCHAR(10) NOT NULL
@@ -117,3 +118,82 @@ ALTER TABLE Clients
 ALTER TABLE Trainings
 	ADD CONSTRAINT fkTrainingsPersons
 		FOREIGN KEY (PersonID) REFERENCES Persons (PersonID)
+
+--Assignment 6 Details
+--Creates your latest database
+--Inserts at least 5 rows of data in every table
+--Updates at least 2 values in any table
+--Deletes at least 2 values in any table
+--Joins at least 2 tables. More joins get higher grades
+
+-- Insert Into Tables
+INSERT INTO Addresses
+	(AddressLine1, AddressLine2, City, State, ZipCode)
+VALUES
+	('One Microsoft Way', NULL, 'Redmond', 'WA', '98052'),
+	('8520 Evanston Ave N', '#101', 'Seattle', 'WA', '98103'),
+	('6449 Independence Ave', NULL, 'Woodland Hills', 'CA', '91367'),
+	('860 Hembry St', 'suite 401', 'Lewisville', 'TX', '75057'),
+	('782 Pelham Pkwy S', NULL, 'The Bronx', 'NY', '10462')
+GO
+INSERT INTO PhoneTypes
+	(PhoneType)
+VALUES
+	('Cell'),
+	('Work'),
+	('Home')
+GO
+INSERT INTO Phones
+	(PhoneTypeID, PhoneNumber)
+VALUES
+	(2, '8887251047'),
+	(1, '2066591781'),
+	(3, '8778843994'),
+	(1, '9722190729'),
+	(1, '7188855500')
+GO
+INSERT INTO Persons
+	(AddressID, PhoneID, PersonType, FirstName, LastName)
+VALUES
+	(1, 1, 'Employee', 'Bill', 'Gates'),
+	(1, 1, 'Employee', 'Spencer', 'Cook'),
+	(1, 1, 'Employee', 'Rylee', 'Crane'),
+	(1, 1, 'Employee', 'Rosa', 'Watts'),
+	(1, 1, 'Employee', 'Wade', 'Perez'),
+	(2, 2, 'Client', 'Dallas', 'Valdez'),
+	(3, 3, 'Client', 'Peck', 'Marcos'),
+	(4, 4, 'Client', 'Kelly', 'Case'),
+	(5, 5, 'Client', 'Nick', 'Reid'),
+	(5, 5, 'Client', 'Lyla', 'Watkins')
+GO
+INSERT INTO Employees
+	(PersonID, EmployeeFullName)
+VALUES
+	(1, 'Bill Gates'),
+	(2, 'Spencer Cook'),
+	(3, 'Rylee Crane'),
+	(4, 'Rosa Watts'),
+	(5, 'Wade Perez')
+GO
+INSERT INTO Clients
+	(PersonID, ClientFullName)
+VALUES
+	(6, 'Dallas Valdez'),
+	(7, 'Peck Marcos'),
+	(8, 'Kelly Case'),
+	(9, 'Nick Reid'),
+	(10, 'Lyla Watkins')
+GO
+INSERT INTO Trainings
+	(PersonID, TrainingDate, SoftwareVersion, TrainingType, BillingType, TrainingHours, Price)
+VALUES
+	()
+GO
+
+-- Join the tables together
+SELECT * FROM Addresses
+SELECT * FROM Phones
+SELECT * FROM PhoneTypes
+SELECT * FROM Persons
+SELECT * FROM Employees
+SELECT * FROM Clients
